@@ -16,22 +16,22 @@ def main():
     return render_template('index.html')
 
 
-@app.route("/signup", methods=['POST', 'GET'])
-def signup():
+@app.route("/studentsignup", methods=['POST', 'GET'])
+def studentsignup():
     if request.method == 'POST':
-        users = mongo.db.users
-        signup_user = users.find_one({'username': request.form['username']})
+        student = mongo.db.student
+        signup_user = student.find_one({'username': request.form['username']})
 
         if signup_user:
             flash(request.form['username'] + ' username is already exist')
-            return redirect(url_for('signup'))
+            return redirect(url_for('studentsignup'))
 
       #   hashed = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt(14))
-        users.insert_one({'username': request.form['username'], 'password': request.form['password'], 'email': request.form['email']})
+        student.insert_one({'username': request.form['username'], 'password': request.form['password'], 'email': request.form['email']})
 
-        return redirect(url_for('signin'))
+        return redirect(url_for('studentsignin'))
 
-    return render_template('signup.html')
+    return render_template('studentsignup.html')
 
 @app.route('/index')
 def index():
@@ -40,11 +40,11 @@ def index():
 
     return render_template('index.html')
 
-@app.route('/signin', methods=['GET', 'POST'])
-def signin():
+@app.route('/studentsignin', methods=['GET', 'POST'])
+def studentsignin():
     if request.method == 'POST':
-        users = mongo.db.users
-        signin_user = users.find_one({'username': request.form['username']})
+        student = mongo.db.student
+        signin_user = student.find_one({'username': request.form['username']})
 
         if signin_user:
             # if bcrypt.hashpw(request.form['password'].encode('utf-8'), signin_user['password'].encode('utf-8')) == \
@@ -54,10 +54,27 @@ def signin():
                   return redirect(url_for('index'))
 
       #   flash('Username and password combination is wrong')
-        return render_template('signin.html')
+        return render_template('studentsignin.html')
 
-    return render_template('signin.html')
+    return render_template('studentsignin.html')
 
+@app.route('/teacherlogin', methods=['GET', 'POST'])
+def teacherlogin():
+    if request.method == 'POST':
+        teacher = mongo.db.teacher
+        signin_user = teacher.find_one({'username': request.form['username']})
+
+        if signin_user:
+            # if bcrypt.hashpw(request.form['password'].encode('utf-8'), signin_user['password'].encode('utf-8')) == \
+                  #   signin_user['password'].encode('utf-8'):
+                if signin_user['password']==request.form['password']:
+                  session['username'] = request.form['username']
+                  return redirect(url_for('index'))
+
+      #   flash('Username and password combination is wrong')
+        return render_template('teacherlogin.html')
+
+    return render_template('teacherlogin.html')
 
 @app.route('/logout')
 def logout():

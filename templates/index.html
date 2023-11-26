@@ -19,9 +19,11 @@
                 <li role="presentation"> Logged in {{username}}<a href="/logout">Logout</a>
                 </li>
                 {% else %}
-                <li role="presentation"><a href="/signin">Sign In</a>
+                <li role="presentation"><a href="/studentsignin">student Sign In</a>
                 </li>
-                <li role="presentation"><a href="/signup">Sign Up</a>
+                <li role="presentation"><a href="/studentsignup">student Sign Up</a>
+                </li>
+                <li role="presentation"><a href="/teacherlogin">teacher Sign in</a>
                 </li>
                 {% endif %}
             </ul>
@@ -36,7 +38,7 @@
         <li role="presentation"> Logged in {{username}}<a href="/logout"> Logout</a>
         </li>
         {% else %}
-        <p><a class="btn btn-lg btn-success" href="signup" role="button">Sign up today</a>
+        <p><a class="btn btn-lg btn-success" href="studentsignup" role="button">Sign up today</a>
         </p>
         {% endif %}
     </div>
